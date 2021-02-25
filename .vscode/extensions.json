@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "ms-azuretools.vscode-docker",
+    "dbaeumer.vscode-eslint",
+    "wix.vscode-import-cost",
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "shan.code-settings-sync",
+    "esbenp.prettier-vscode",
+    "christian-kohler.path-intellisense"
+  ]
+}

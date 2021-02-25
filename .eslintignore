@@ -1,0 +1,7 @@
+# editor
+/.vscode
+
+# build
+build
+
+lib
