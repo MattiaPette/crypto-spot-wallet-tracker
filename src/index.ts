@@ -11,7 +11,7 @@ if (!apikey || !secret || !baseUrl) {
   throw new Error('SERVER_MISCONFIGURATION');
 }
 
-const api = binance(baseUrl);
+const api = binance(baseUrl, apikey, secret);
 
 async function main() {
   // TODO: make sure this throws
@@ -22,7 +22,7 @@ async function main() {
   }
 
   // TODO: make a better logging utility
-  console.log('Server startup completed');
+  console.log('🚀 Server startup completed');
 }
 
 main();
