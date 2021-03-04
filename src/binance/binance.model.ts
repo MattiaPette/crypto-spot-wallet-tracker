@@ -1,3 +1,6 @@
+import { BinanceExchangeFilter, BinanceSymbolsFilter } from './filters/filters';
+import { BinanceRateLimiter } from './rateLimiter/rateLimiter.model';
+
 export type ServerTime = {
   readonly serverTime: number;
 };
@@ -6,6 +9,52 @@ export type BinanceTime = () => Promise<ServerTime>;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type BinancePing = () => Promise<{}>;
+
+export enum BinancePermission {
+  SPOT = 'SPOT',
+  MARGIN = 'MARGIN',
+  LEVERAGED = 'LEVERAGED',
+}
+
+export enum BinanceOrderType {
+  LIMIT = 'LIMIT',
+  LIMIT_MAKER = 'LIMIT_MAKER',
+  MARKET = 'MARKET',
+  STOP_LOSS = 'STOP_LOSS',
+  STOP_LOSS_LIMIT = 'STOP_LOSS_LIMIT',
+  TAKE_PROFIT = 'TAKE_PROFIT',
+  TAKE_PROFIT_LIMIT = 'TAKE_PROFIT_LIMIT',
+}
+
+export type BinanceSymbol = {
+  readonly symbol: string;
+  readonly status: string;
+  readonly baseAsset: string;
+  readonly baseAssetPrecision: number;
+  readonly quoteAsset: string;
+  readonly quotePrecision: number;
+  readonly quoteAssetPrecision: number;
+  readonly baseCommissionPrecision: number;
+  readonly quoteCommissionPrecision: number;
+  readonly rderTypes: readonly BinanceOrderType[];
+  readonly icebergAllowed: boolean;
+  readonly ocoAllowed: boolean;
+  readonly quoteOrderQtyMarketAllowed: boolean;
+  readonly isSpotTradingAllowed: boolean;
+  readonly isMarginTradingAllowed: boolean;
+  readonly filters: readonly BinanceSymbolsFilter[];
+  readonly permissions: readonly BinancePermission[];
+};
+
+export type BinanceExchangeInfoData = {
+  readonly timezone: string;
+  readonly serverTime: number;
+  readonly rateLimits: readonly BinanceRateLimiter[];
+  readonly exchangeFilters: readonly BinanceExchangeFilter[];
+  readonly symbols: readonly BinanceSymbol[];
+};
+
+export type BinanceExchangeInfo = () => Promise<BinanceExchangeInfoData>;
 
 export type BinanceOrder = {
   readonly symbol: string;
@@ -46,4 +95,5 @@ export type Binance = {
   readonly ping: BinancePing;
   readonly time: BinanceTime;
   readonly allOrders: BinanceAllOrders;
+  readonly exchangeInfo: BinanceExchangeInfo;
 };

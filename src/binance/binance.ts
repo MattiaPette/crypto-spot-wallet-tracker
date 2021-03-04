@@ -2,14 +2,20 @@ import createHmacSecret from '../shared/createHmacSecret/createHmacSecret';
 import makeRequest from '../shared/makeRequest/makeRequest';
 import stringifyRequestBody from '../shared/stringifyRequestBody/stringifyRequestBody';
 
-import { Binance, BinanceAllOrders, ServerTime } from './binance.model';
+import {
+  Binance,
+  BinanceAllOrders,
+  BinanceExchangeInfo,
+  BinancePing,
+  BinanceTime,
+} from './binance.model';
 
 const binance = (baseUrl: string, apikey: string, secret: string): Binance => {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  const ping = () => makeRequest<{}>(`${baseUrl}/ping`, { method: 'GET' });
+  const ping: BinancePing = () =>
+    makeRequest(`${baseUrl}/ping`, { method: 'GET' });
 
-  const time = () =>
-    makeRequest<ServerTime>(`${baseUrl}/time`, { method: 'GET' });
+  const time: BinanceTime = () =>
+    makeRequest(`${baseUrl}/time`, { method: 'GET' });
 
   const allOrders: BinanceAllOrders = params => {
     const body = stringifyRequestBody(params);
@@ -28,9 +34,15 @@ const binance = (baseUrl: string, apikey: string, secret: string): Binance => {
     );
   };
 
+  const exchangeInfo: BinanceExchangeInfo = () =>
+    makeRequest(`${baseUrl}/exchangeInfo`, {
+      method: 'GET',
+    });
+
   return {
     ping,
     time,
+    exchangeInfo,
     allOrders,
   };
 };
